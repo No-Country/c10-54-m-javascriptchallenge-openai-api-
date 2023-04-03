@@ -11,15 +11,15 @@ const Users = db.define(
     },
     firstname: {
       type: DataTypes.STRING(60),
-      allowNull: false
+      allowNull: true
     },
     lastname: {
       type: DataTypes.STRING(60),
-      allowNull: false
+      allowNull: true
     },
     address: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     phone: {
       type: DataTypes.INTEGER,
@@ -41,7 +41,7 @@ const Users = db.define(
     },
     status: {
       type: DataTypes.ENUM('active', 'disabled'),
-      allowNull: false
+      allowNull: true
     },
   },
   {
