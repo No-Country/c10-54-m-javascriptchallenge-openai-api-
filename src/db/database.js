@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 const dotenv = require("dotenv");
 
+/* Loading the environment variables from the config.env file. */
 dotenv.config({ path: "./config.env" });
 
 const db = new Sequelize({
