@@ -9,7 +9,7 @@ const orderUsers = db.define('orderUsers', {
   },
   observations: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
 });
 
