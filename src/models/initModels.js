@@ -8,8 +8,6 @@ const db = require('../db/database');
 
 const initModels = () => {
 
-  db.sync({force: false})
-
   // users - orders
   Users.hasMany(Orders, { foreignKey: 'recycler_id' });
   Orders.belongsTo(Users, { foreignKey: 'recycler_id' });

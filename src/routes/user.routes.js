@@ -11,7 +11,6 @@ router.post('/login',  authController.login);
 router.get('/me', authController.protect, userController.getUser);
 
 // router.put('/:id', authController.protect, userController.updateUser);
-
 // router.get('/', userController.getAllUsers);
 
 module.exports = router;

@@ -15,14 +15,15 @@ exports.signUp = async (req, res, next) => {
       lastname: req.body.lastname,
       email: req.body.email,
       password: hashedPassword,
+      role_id: req.body.role_id
     };
     ;
 
     const user = await UserServices.createOne(newUser);
     // incluir envío de mail de confirmación
 
-    const { id, firstname, lastname, email } = user;
-    const token = AuthServices.signToken({ id, firstname, lastname, email });
+    const { id, firstname, lastname, email, role_id } = user;
+    const token = AuthServices.signToken({ id, firstname, lastname, email, role_id });
 
     res.status(201).json({
       status: 'success',
@@ -55,9 +56,9 @@ exports.login = async (req, res, next) => {
         errorName: 'Invalid password',
       });
 
-    const { id, firstname, lastname } = user;
+    const { id, firstname, lastname, role_id } = user;
 
-    const token = AuthServices.signToken({ id, firstname, lastname, email });
+    const token = AuthServices.signToken({ id, firstname, lastname, email, role_id });
 
     res.json({
       status: 'success',
@@ -67,6 +68,7 @@ exports.login = async (req, res, next) => {
         firstname,
         lastname,
         email,
+        role_id
       },
     });
   } catch (error) {

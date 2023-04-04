@@ -31,7 +31,7 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-exports.updateUser = async (req, res, next) => {
+/* exports.updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     //FIX extract only fields that can be updated from req.body
@@ -45,4 +45,4 @@ exports.updateUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}; */
