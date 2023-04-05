@@ -4,6 +4,7 @@ const cors = require("cors");
 const db = require("./db/database");
 const initModels = require('./models/initModels');
 const userRoutes = require('./routes/user.routes');
+const orderRoutes = require('./routes/order.routes')
 
 
 initModels();
@@ -22,12 +23,12 @@ db.authenticate()
   })
   .catch((error) => console.log(error));
 
-db.sync({force: false})
+db.sync({alter: true})
   .then(() => console.log("DB synchronized"))
   .catch((error) => console.log(error));
 
 app.use("/api/v1/users", userRoutes);
-// app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`App running on port: ${PORT}`);
