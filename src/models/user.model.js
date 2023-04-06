@@ -7,47 +7,50 @@ const Users = db.define(
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     firstname: {
       type: DataTypes.STRING(60),
-      allowNull: true
+      allowNull: false,
     },
     lastname: {
       type: DataTypes.STRING(60),
-      allowNull: true
+      allowNull: false,
     },
     address: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     phone: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      unique: false
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      unique: true
+      unique: true,
     },
     password: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('active', 'disabled'),
-      allowNull: true
+      type: DataTypes.ENUM('activo', 'inactivo'),
+      allowNull: false,
+      defaultValue: 'activo',
+    },
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
     freezeTableName: true,
   }
-  
 );
 
 module.exports = Users;

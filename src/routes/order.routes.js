@@ -5,28 +5,27 @@ const authController = require('../controllers/auth.controller');
 const router = Router();
 // Routes
 
-router.post('/', authController.protect, orderController.createPendingOrder);
-router.put('/:id', authController.protect, orderController.updateOrderRecycler);
-router.delete(
-  '/:id',
-  authController.protect,
-  orderController.deleteOrderRecycler
-);
-
-//Un recolector puede atender una orden (/api/v1/orders/:id) put (actualizar status de orden: asignado)
-router.put('/:id/assign', authController.protect, orderController.assignOrder);
-
-// //Un recolector puede descartar una orden (/api/v1/orders/:id) put (actualizar status de orden: pendiente)
-router.put(
-  '/:id/unassign',
-  authController.protect,
-  orderController.unassignOrder
-);
-
-// //Un recolector puede finalizar una orden (/api/v1/orders/:id) put (actualizar status de orden: entregado)
-router.put('/:id/close', authController.protect, orderController.closeOrder);
-
-// //Un reciclador puede eliminar una orden (/api/v1/orders/:id) delete
+//////////////////////////////////////////////////////////////////////////////////////
+// Recycler
+// View active orders (pending)
+// View closed orders (history)
+// Create order
+router.post('/', authController.protect, orderController.createOrder);
+// Update order
+router.put('/:id', authController.protect, orderController.updateOrder);
+// Delete order
 router.delete('/:id', authController.protect, orderController.deleteOrder);
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Collector
+// View available orders (pending)
+// View attending orders (assigned)
+// View attended orders (closed)
+// Attend an order
+router.put('/:id/attend', authController.protect, orderController.attendOrder);
+// Dismiss an order
+router.put('/:id/dismiss', authController.protect, orderController.dismissOrder);
+// Close an order
+router.put('/:id/close', authController.protect, orderController.closeOrder);
 
 module.exports = router;

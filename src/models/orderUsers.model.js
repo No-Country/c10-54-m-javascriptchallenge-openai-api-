@@ -7,6 +7,14 @@ const orderUsers = db.define('orderUsers', {
     primaryKey: true,
     autoIncrement: true,
   },
+  order_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  collector_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   observations: {
     type: DataTypes.TEXT,
     allowNull: true,

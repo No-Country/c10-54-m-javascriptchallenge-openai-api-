@@ -27,6 +27,14 @@ const Orders = db.define(
       allowNull: false,
       defaultValue: 'pendiente',
     },
+    material_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    recycler_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,

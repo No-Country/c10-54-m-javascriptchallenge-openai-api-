@@ -10,14 +10,13 @@ const UserServices = require('../services/user.services');
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
   }
 }; */
 
 exports.getUser = async (req, res, next) => {
   try {
-    console.log('requserid', req.user.id)
-    const userId = req.user.id; 
+    const userId = req.user.id;
     const user = await UserServices.getUser(userId);
     res.status(200).json({
       status: 'success',
@@ -26,8 +25,7 @@ exports.getUser = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
-    console.log(error.message);
+    console.error(error);
   }
 };
 
@@ -43,6 +41,6 @@ exports.getUser = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
   }
 }; */

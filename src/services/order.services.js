@@ -4,17 +4,19 @@ const OrderUsers = require('../models/orderUsers.model');
 class OrderServices {
   static async createOrder(recycler_id, newOrder) {
     try {
-      const orderCreated = await Orders.create({
-        ...newOrder,
+      return await Orders.create({
+        volumen: newOrder.volumen,
+        weight: newOrder.weight,
+        observations: newOrder.observations,
+        material_id: newOrder.material_id,
         recycler_id,
       });
-      return orderCreated;
     } catch (error) {
       throw error;
     }
   }
 
-  static async updateOrderPending(id, order) {
+  static async updateOrder(id, order) {
     try {
       return await Orders.update(
         {
@@ -23,7 +25,6 @@ class OrderServices {
           observations: order.observations,
           material_id: order.material_id,
         },
-        // order,
         {
           where: {
             id,
@@ -36,18 +37,20 @@ class OrderServices {
     }
   }
 
-  static async deleteOrders(id) {
-    return await Orders.destroy({
-      where: {
-        id,
-      },
-    });
+  static async deleteOrder(id) {
+    try {
+      return await Orders.destroy({
+        where: { id },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  static async updateOrdersStatus(id, status) {
+  static async updateOrderStatus(id, status) {
     try {
       return await Orders.update(
-        { status: status },
+        { status },
         {
           where: { id },
           include: {
@@ -59,29 +62,20 @@ class OrderServices {
       throw error;
     }
   }
-  static async assignColectorToOrder(orderId, userId) {
+  static async assignCollectorToOrder(orderId, userId) {
     try {
       return await OrderUsers.create({
         order_id: orderId,
-        colector_id: userId,
+        collector_id: userId,
       });
     } catch (error) {
       throw error;
     }
   }
-  static async unassignColectorToOrder(orderId) {
+  static async unassignCollectorToOrder(orderId) {
     try {
       return await OrderUsers.destroy({
         where: { order_id: orderId },
-      });
-    } catch (error) {
-      throw error;
-    }
-  }
-  static async deleteOrders(id) {
-    try {
-      return await Orders.destroy({
-        where: { id },
       });
     } catch (error) {
       throw error;
