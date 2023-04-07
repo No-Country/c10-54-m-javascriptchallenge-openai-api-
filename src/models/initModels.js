@@ -5,18 +5,16 @@ const Roles = require('./roles.models');
 const Materials = require('./materials.model');
 const db = require('../db/database');
 
-
 const initModels = () => {
-
   // users - orders
   Users.hasMany(Orders, { foreignKey: 'recycler_id' });
   Orders.belongsTo(Users, { foreignKey: 'recycler_id' });
 
-  // users - orderUsers 
-  Users.hasMany(orderUsers, { foreignKey: 'colector_id' });
-  orderUsers.belongsTo(Users, { foreignKey: 'colector_id' });
+  // users - orderUsers
+  Users.hasMany(orderUsers, { foreignKey: 'collector_id' });
+  orderUsers.belongsTo(Users, { foreignKey: 'collector_id' });
 
-  // orders - orderUsers 
+  // orders - orderUsers
   Orders.hasMany(orderUsers, { foreignKey: 'order_id' });
   orderUsers.belongsTo(Orders, { foreignKey: 'order_id' });
 
@@ -27,6 +25,6 @@ const initModels = () => {
   // orders - materials
   Materials.hasOne(Orders, { foreignKey: 'material_id' });
   Orders.belongsTo(Materials, { foreignKey: 'material_id' });
-}
+};
 
 module.exports = initModels;

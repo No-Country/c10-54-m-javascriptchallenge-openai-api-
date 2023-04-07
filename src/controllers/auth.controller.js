@@ -1,29 +1,33 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 const UserServices = require('../services/user.services');
 const AuthServices = require('../services/auth.services');
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: './config.env' });
 
 exports.signUp = async (req, res, next) => {
   try {
-    const {password} = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const { password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
       password: hashedPassword,
-      role_id: req.body.role_id
+      role_id: req.body.role_id,
     };
-    ;
-
     const user = await UserServices.createOne(newUser);
     // incluir envío de mail de confirmación
 
     const { id, firstname, lastname, email, role_id } = user;
-    const token = AuthServices.signToken({ id, firstname, lastname, email, role_id });
+    const token = AuthServices.signToken({
+      id,
+      firstname,
+      lastname,
+      email,
+      role_id,
+    });
 
     res.status(201).json({
       status: 'success',
@@ -33,7 +37,7 @@ exports.signUp = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
   }
 };
 
@@ -58,7 +62,13 @@ exports.login = async (req, res, next) => {
 
     const { id, firstname, lastname, role_id } = user;
 
-    const token = AuthServices.signToken({ id, firstname, lastname, email, role_id });
+    const token = AuthServices.signToken({
+      id,
+      firstname,
+      lastname,
+      email,
+      role_id,
+    });
 
     res.json({
       status: 'success',
@@ -68,11 +78,11 @@ exports.login = async (req, res, next) => {
         firstname,
         lastname,
         email,
-        role_id
+        role_id,
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
   }
 };
 
@@ -100,7 +110,6 @@ exports.protect = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    next(error);
-    console.log(error.message)
+    console.error(error);
   }
 };
