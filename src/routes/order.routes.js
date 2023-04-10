@@ -1,14 +1,20 @@
 const { Router } = require('express');
 const orderController = require('../controllers/order.controller');
 const authController = require('../controllers/auth.controller');
+const { or } = require('sequelize');
 
 const router = Router();
 // Routes
+//////////////////////////////////////////////////////////////////////////////////////
+// Open Orders
+// router.get('/feed', orderController.getAllOpenOrders);
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Recycler
 // View active orders (pending)
+router.get('/active', authController.protect, orderController.getAllActiveOrders);
 // View closed orders (history)
+router.get('/history', authController.protect, orderController.getAllOrdersHistory);
 // Create order
 router.post('/', authController.protect, orderController.createOrder);
 // Update order
@@ -19,8 +25,11 @@ router.delete('/:id', authController.protect, orderController.deleteOrder);
 //////////////////////////////////////////////////////////////////////////////////////
 // Collector
 // View available orders (pending)
+router.get('/available', authController.protect, orderController.getAllAvailableOrders);
 // View attending orders (assigned)
+router.get('/attending', authController.protect, orderController.getAllAttendingOrders);
 // View attended orders (closed)
+router.get('/attended', authController.protect, orderController.getAllAttendedOrders);
 // Attend an order
 router.put('/:id/attend', authController.protect, orderController.attendOrder);
 // Dismiss an order

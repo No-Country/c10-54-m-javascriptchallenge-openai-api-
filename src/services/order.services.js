@@ -2,6 +2,54 @@ const Orders = require('../models/order.model');
 const OrderUsers = require('../models/orderUsers.model');
 
 class OrderServices {
+  static async getActiveOrders(userId) {
+    try {
+      return await Orders.findAll({
+        where: { recycler_id: userId, status: 'pendiente' },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getOrdersHistory(userId) {
+    try {
+      return await Orders.findAll({ where: { recycler_id: userId, status: 'entregado' } });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getAvailableOrders() {
+    try {
+      return await Orders.findAll({ where: { status: 'pendiente' } });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getAttendingOrders(userId) {
+    try {
+      return await OrderUsers.findAll({
+        where: { collector_id: userId },
+        include: { model: Orders, where: { status: 'asignado' } },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getAttendedOrders(userId) {
+    try {
+      return await OrderUsers.findAll({
+        where: { collector_id: userId },
+        include: { model: Orders, where: { status: 'entregado' } },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async createOrder(recycler_id, newOrder) {
     try {
       return await Orders.create({

@@ -8,13 +8,11 @@ dotenv.config({ path: './config.env' });
 
 exports.signUp = async (req, res, next) => {
   try {
-    const { password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
-      password: hashedPassword,
+      password: req.body.password,
       role_id: req.body.role_id,
     };
     const user = await UserServices.createOne(newUser);
@@ -89,10 +87,7 @@ exports.login = async (req, res, next) => {
 exports.protect = (req, res, next) => {
   try {
     let token;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     }
 
