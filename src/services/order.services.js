@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Orders = require('../models/order.model');
 const OrderUsers = require('../models/orderUsers.model');
 
@@ -5,7 +6,7 @@ class OrderServices {
   static async getActiveOrders(userId) {
     try {
       return await Orders.findAll({
-        where: { recycler_id: userId, status: 'pendiente' },
+        where: { recycler_id: userId, status: { [Op.not]: 'entregado' } },
       });
     } catch (error) {
       throw error;
