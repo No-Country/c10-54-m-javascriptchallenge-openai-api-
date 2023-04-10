@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 const db = require('../db/database');
 
 const Users = db.define(
@@ -46,6 +47,20 @@ const Users = db.define(
     role_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+  },
+  {
+    hooks: {
+      beforeCreate: async user => {
+        // user.password
+        try {
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(user.password, salt);
+          user.password = hashedPassword;
+        } catch (error) {
+          throw error;
+        }
+      },
     },
   },
   {

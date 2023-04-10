@@ -3,6 +3,52 @@ const OrderServices = require('../services/order.services');
 /////////////////////////////////////////////////////////////////
 // Recycler
 
+exports.getAllActiveOrders = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role_id;
+
+    // Verificar que el rol del usuario sea reciclador
+    if (role === 1) {
+      const activeOrders = await OrderServices.getActiveOrders(userId);
+      res.status(200).json({
+        status: 'success',
+        orders: activeOrders,
+      });
+    } else {
+      res.status(401).json({
+        errorName: 'Unauthorized',
+        errorMessage: 'Access denied for this user role',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.getAllOrdersHistory = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role_id;
+
+    // Verificar que el rol del usuario sea reciclador
+    if (role === 1) {
+      const ordersHistory = await OrderServices.getOrdersHistory(userId);
+      res.status(200).json({
+        status: 'success',
+        orders: ordersHistory,
+      });
+    } else {
+      res.status(401).json({
+        errorName: 'Unauthorized',
+        errorMessage: 'Access denied for this user role',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 exports.createOrder = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -79,6 +125,74 @@ exports.deleteOrder = async (req, res, next) => {
 
 /////////////////////////////////////////////////////////////////
 // Collector
+
+exports.getAllAvailableOrders = async (req, res, next) => {
+  try {
+    const role = req.user.role_id;
+
+    // Verificar que el rol del usuario sea recolector
+    if (role === 2) {
+      const availableOrders = await OrderServices.getAvailableOrders();
+      res.status(200).json({
+        status: 'success',
+        orders: availableOrders,
+      });
+    } else {
+      res.status(401).json({
+        errorName: 'Unauthorized',
+        errorMessage: 'Access denied for this user role',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.getAllAttendingOrders = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role_id;
+
+    // Verificar que el rol del usuario sea recolector
+    if (role === 2) {
+      const attendingOrders = await OrderServices.getAttendingOrders(userId);
+      res.status(200).json({
+        status: 'success',
+        orders: attendingOrders,
+      });
+    } else {
+      res.status(401).json({
+        errorName: 'Unauthorized',
+        errorMessage: 'Access denied for this user role',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.getAllAttendedOrders = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role_id;
+
+    // Verificar que el rol del usuario sea recolector
+    if (role === 2) {
+      const attendedOrders = await OrderServices.getAttendedOrders(userId);
+      res.status(200).json({
+        status: 'success',
+        orders: attendedOrders,
+      });
+    } else {
+      res.status(401).json({
+        errorName: 'Unauthorized',
+        errorMessage: 'Access denied for this user role',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 exports.attendOrder = async (req, res, next) => {
   try {

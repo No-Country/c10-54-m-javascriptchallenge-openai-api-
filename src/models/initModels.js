@@ -1,7 +1,7 @@
 const Users = require('./user.model');
 const Orders = require('./order.model');
 const orderUsers = require('./orderUsers.model');
-const Roles = require('./roles.models');
+const Roles = require('./roles.model');
 const Materials = require('./materials.model');
 const db = require('../db/database');
 
