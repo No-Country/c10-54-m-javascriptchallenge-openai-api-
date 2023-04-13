@@ -1,6 +1,6 @@
 const OrderServices = require('../services/order.services');
-
-/////////////////////////////////////////////////////////////////
+const fs = require('fs/promises');
+/////////////////////////////////////////////////////
 // Recycler
 
 exports.getAllActiveOrders = async (req, res, next) => {
@@ -74,15 +74,38 @@ exports.createOrder = async (req, res, next) => {
 };
 
 exports.updateOrder = async (req, res, next) => {
-  try {
+  
     const role = req.user.role_id;
-    const order = req.body;
+    const {
+      volumen,
+      weight,
+      observations,
+      material_id,
+    } = req.body;
+    let { image } = req.files || {}
+
+    try {
+      const imageUpload = await OrderServices.uploadImageOrder(image.tempFilePath)
+
+      const { secure_url: url, public_id: idImg } = imageUpload;
+
+      image = url;
+      const image_id = idImg;
+
+      await fs.rmdir('./tmp', { recursive: true })
 
     // Verificar que el rol del usuario sea reciclador
     // Verificar que el usuario que borra la orden sea el que la creó
     if (role === 1) {
       const orderId = req.params.id;
-      const orderUpdated = await OrderServices.updateOrder(orderId, order);
+      const orderUpdated = await OrderServices.updateOrder(orderId, {
+        volumen,
+        weight,
+        observations,
+        material_id,
+        image_id, 
+        image
+      });
       res.status(201).json({
         status: 'success',
         message: 'Order updated successfully',
@@ -95,7 +118,11 @@ exports.updateOrder = async (req, res, next) => {
       });
     }
   } catch (error) {
+    if (image !== undefined && typeof image === 'string') {
+    await OrderServices.deleteImageOrder(image_id)
+    }
     console.error(error);
+    res.status(500).json(error)
   }
 };
 

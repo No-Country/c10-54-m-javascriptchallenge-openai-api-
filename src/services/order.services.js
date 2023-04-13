@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const Orders = require('../models/order.model');
 const OrderUsers = require('../models/orderUsers.model');
+const cloudinary = require('../config/clodinary-config')
 
 class OrderServices {
   static async getActiveOrders(userId) {
@@ -67,13 +68,7 @@ class OrderServices {
 
   static async updateOrder(id, order) {
     try {
-      return await Orders.update(
-        {
-          volumen: order.volumen,
-          weight: order.weight,
-          observations: order.observations,
-          material_id: order.material_id,
-        },
+      return await Orders.update( order,
         {
           where: {
             id,
@@ -130,5 +125,17 @@ class OrderServices {
       throw error;
     }
   }
+
+  static async uploadImageOrder (filePath) {
+    return await cloudinary.uploader.upload(filePath, {
+      /* Creating a folder in the cloudinary account. */
+      folder: 'greeCycle_orders'
+    })
+  }
+
+  static async deleteImageOrder (id) {
+    return await cloudinary.uploader.destroy(id)
+  }
+
 }
 module.exports = OrderServices;

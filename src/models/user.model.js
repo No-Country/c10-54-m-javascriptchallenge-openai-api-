@@ -26,6 +26,10 @@ const Users = db.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    photo_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     photo: {
       type: DataTypes.STRING,
       allowNull: true,

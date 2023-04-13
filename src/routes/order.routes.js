@@ -2,6 +2,10 @@ const { Router } = require('express');
 const orderController = require('../controllers/order.controller');
 const authController = require('../controllers/auth.controller');
 const { or } = require('sequelize');
+const fileUpload = require('express-fileupload')({
+  useTempFiles: true,
+  tempFileDir: './tmp'
+})
 
 const router = Router();
 // Routes
@@ -18,7 +22,7 @@ router.get('/history', authController.protect, orderController.getAllOrdersHisto
 // Create order
 router.post('/', authController.protect, orderController.createOrder);
 // Update order
-router.put('/:id', authController.protect, orderController.updateOrder);
+router.put('/:id', authController.protect, fileUpload, orderController.updateOrder);
 // Delete order
 router.delete('/:id', authController.protect, orderController.deleteOrder);
 
