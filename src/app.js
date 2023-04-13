@@ -5,6 +5,7 @@ const db = require('./db/database');
 const initModels = require('./models/initModels');
 const userRoutes = require('./routes/user.routes');
 const orderRoutes = require('./routes/order.routes');
+const contactRoutes = require('./routes/contact.routes');
 
 initModels();
 
@@ -28,6 +29,7 @@ db.sync({ force: false })
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/contact', contactRoutes);
 
 app.listen(PORT, () => {
   console.log(`App running on port: ${PORT}`);
