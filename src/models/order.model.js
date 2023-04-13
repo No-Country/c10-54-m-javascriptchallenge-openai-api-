@@ -16,6 +16,10 @@ const Orders = db.define(
     weight: {
       type: DataTypes.INTEGER,
     },
+    image_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     image: {
       type: DataTypes.STRING,
     },
