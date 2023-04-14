@@ -29,7 +29,7 @@ router.delete('/:id', authController.protect, orderController.deleteOrder);
 //////////////////////////////////////////////////////////////////////////////////////
 // Collector
 // View available orders (pending)
-router.get('/available', authController.protect, orderController.getAllAvailableOrders);
+router.get('/available', orderController.getAllAvailableOrders);
 // View attending orders (assigned)
 router.get('/attending', authController.protect, orderController.getAllAttendingOrders);
 // View attended orders (closed)
