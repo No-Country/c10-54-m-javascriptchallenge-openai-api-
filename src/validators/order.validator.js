@@ -18,14 +18,6 @@ exports.createOrderRecycler = [
     .isInt()
     .withMessage('El campo debe ser un entero'),
 
-  check('recycler_id', 'Error en el campo recycler_id')
-    .exists()
-    .withMessage("Debe existir la propiedad 'recycler_id'")
-    .notEmpty()
-    .withMessage('El campo no debe estar vacío')
-    .isInt()
-    .withMessage('El campo debe ser un entero'),
-
   (req, res, next) => {
     validateResult(req, res, next);
   },
@@ -44,14 +36,6 @@ exports.updateOrderRecycler = [
   check('material_id', 'Error en el campo material_id')
     .exists()
     .withMessage("Debe existir la propiedad 'material_id'")
-    .notEmpty()
-    .withMessage('El campo no debe estar vacío')
-    .isInt()
-    .withMessage('El campo debe ser un entero'),
-
-  check('recycler_id', 'Error en el campo recycler_id')
-    .exists()
-    .withMessage("Debe existir la propiedad 'recycler_id'")
     .notEmpty()
     .withMessage('El campo no debe estar vacío')
     .isInt()

@@ -1,4 +1,5 @@
 const { check } = require('express-validator');
+const validateResult = require('../utils/validate');
 
 exports.signupUser = [
   check('firstname', 'Error en el campo firstname')
@@ -29,11 +30,15 @@ exports.signupUser = [
     .exists()
     .withMessage("Debe existir la propiedad 'password'")
     .notEmpty()
-    .withMessage('El campo no debe estar vacio')
-    .isStrongPassword()
-    .withMessage('El campo debe tener formato de password'),
+    .withMessage('El campo no debe estar vacio'),
 
-  check('role_id').notEmpty().withMessage('El campo no debe estar vacio'),
+  check('role_id', 'Error en el campo role_id')
+    .exists()
+    .withMessage("Debe existir la propiedad 'role_id'")
+    .notEmpty()
+    .withMessage('El campo no debe estar vacío')
+    .isInt()
+    .withMessage('El campo debe ser un entero'),
   (req, res, next) => {
     validateResult(req, res, next);
   },
@@ -52,9 +57,7 @@ exports.loginUser = [
     .exists()
     .withMessage("Debe existir la propiedad 'password'")
     .notEmpty()
-    .withMessage('El campo no debe estar vacio')
-    .isStrongPassword()
-    .withMessage('El campo debe tener formato de password'),
+    .withMessage('El campo no debe estar vacio'),
 
   (req, res, next) => {
     validateResult(req, res, next);
